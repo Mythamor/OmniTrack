@@ -19,7 +19,7 @@ export const financeApi = createApi({
     }),
 
     getCurrencies: builder.query({
-      query: () => createRequest('/search?query=KES&language=en'),
+      query: () => createRequest('/search?quer=KES&language=en'),
     }),
   }),
 });

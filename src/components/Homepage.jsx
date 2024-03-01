@@ -50,7 +50,7 @@ const Homepage = () => {
     
     <>
       <Title level={3} className='heading'>
-        Real Time Forex Tracking in Kenya
+        Live Forex Tracking for Kenyan Shilling (KES)
       </Title>
       <Text type='secondary'>
          Last updated {moment(data?.data?.currency[0].last_update_utc).format('YYYY-MM-DD HH:mm:ss')}
