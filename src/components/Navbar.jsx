@@ -46,14 +46,14 @@ const Navbar = () => {
                 <Menu.Item icon={<HomeFilled style={{fontSize: '16px'}}/>}>
                     <Link to='/'>Home</Link>
                 </Menu.Item>
-                <Menu.Item icon={<DollarCircleFilled style={{fontSize: '16px'}} />}>
-                    <Link to='/exchange-rates'>Exchange Rates</Link>
-                </Menu.Item>
                 <Menu.Item icon={<FundFilled style={{fontSize: '16px'}} />}>
                     <a href='/#financial-trends'>Financial Trends</a>
                 </Menu.Item>
                 <Menu.Item icon={<ThunderboltFilled style={{fontSize: '16px'}} />}>
                     <a href='/#trending-news'>Trending News</a>
+                </Menu.Item>
+                <Menu.Item icon={<DollarCircleFilled style={{fontSize: '16px'}} />}>
+                    <Link to='/historical-data'>Historical Data</Link>
                 </Menu.Item>
             </Menu>
         )}

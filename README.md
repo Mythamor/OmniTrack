@@ -2,7 +2,7 @@
 
 OmniTrack is a web application designed to provide real-time forex exchange rates for Kenya against USD, GBP, and EUR. In addition, it fetches top financial news from Twitter and news organizations via APIs and displays them on the web page. Built on the MERN stack (MongoDB, Express.js, React.js, Node.js), OmniTrack aims to be your one-stop solution for staying informed about financial trends.
 
-![Screenshot from 2024-02-27 23-25-17](https://github.com/Mythamor/OmniTrack/assets/113252977/09d3126b-dec0-4615-a9f5-457d4f82d368)
+![Screenshot from 2024-03-01 20-50-55](https://github.com/Mythamor/OmniTrack/assets/113252977/09d3126b-dec0-4615-a9f5-457d4f82d368)
 
 ## Features
 

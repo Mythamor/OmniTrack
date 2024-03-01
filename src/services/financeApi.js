@@ -1,15 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const financeApiHeaders = {
-  'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+  'X-RapidAPI-Key': process.env.REACT_APP_RAPID_API_KEY,
   'X-RapidAPI-Host': 'real-time-finance-data.p.rapidapi.com'
 };
 
-const financeParams = {
-  trend_type: 'MOST_ACTIVE',
-  country: 'us',
-  language: 'en'
-};
 
 const baseUrl = 'https://real-time-finance-data.p.rapidapi.com';
 
@@ -20,9 +15,13 @@ export const financeApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
   endpoints: (builder) => ({
     getMarketTrends: builder.query({
-      query: ({typeOfTrend}) => createRequest(`/market-trend?trend_type=${typeOfTrend}&country=us&language=en`),
+      query: (typeOfTrend) => createRequest(`/market-tren?trend_type=${typeOfTrend}&country=us&language=en`),
+    }),
+
+    getCurrencies: builder.query({
+      query: () => createRequest('/search?query=KES&language=en'),
     }),
   }),
 });
 
-export const { useGetMarketTrendsQuery } = financeApi;
+export const { useGetMarketTrendsQuery, useGetCurrenciesQuery } = financeApi;
