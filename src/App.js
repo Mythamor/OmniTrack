@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { Layout, Typography, Space, } from "antd";
 import { GithubOutlined, LinkedinFilled, XOutlined, MediumSquareFilled} from "@ant-design/icons";
 
-import { Navbar, Homepage, Exchanges, News } from "./components";
+import { Navbar, Homepage, CurrencyConversion, FinancialTrends, News, HistoricalRates } from "./components";
 
 import "./App.css";
 
@@ -19,8 +19,10 @@ const App = () => {
                     <div className="routes">
                         <Routes>
                             <Route path='/' element={<Homepage/>} />
-                            <Route path="/exchange-rates" element={<Exchanges />} />
-                            <Route path="/news" element={<News />} />
+                            <Route path="/currency-conversion" element={<CurrencyConversion />} />
+                            <Route path="/financial-trends" element={<FinancialTrends />} />
+                            <Route path="/trending-news" element={<News />} />
+                            <Route path="/historical-rates" element={<HistoricalRates />} />
                         </Routes>
                     </div>
                 </Layout>

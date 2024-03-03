@@ -3,7 +3,7 @@ import millify from 'millify';
 import LineChartt from './LineChart';
 
 
-const Exchanges = () => {
+const HistoricalRates = () => {
   return (
     <div>
       <LineChartt/>
@@ -11,4 +11,4 @@ const Exchanges = () => {
   )
 }
 
-export default Exchanges
+export default HistoricalRates;

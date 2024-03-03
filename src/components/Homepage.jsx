@@ -8,16 +8,18 @@ import { Typography,
          Select,
          Statistic,
        } from 'antd';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // Import components
 import FinancialTrends from '../components/FinancialTrends';
 import News from '../components/News';
 
+
 // Import services
 import { useGetCurrenciesQuery } from '../services/financeApi';
 
 import Loader from './Loader';
+import '../index.css';
 
 
 
@@ -78,7 +80,10 @@ const Homepage = () => {
           </Col></>
         ))} 
         </Row>
-
+        <br /><br />
+        <Text type="link">
+            <Link to="/currency-conversion">Explore more currency conversions</Link>
+        </Text>
         <br /><br /><FinancialTrends simplified /><div className='home-heading-container'>
         <Title level={3} className='heading'>
           Trending News
