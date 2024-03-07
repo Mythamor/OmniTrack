@@ -7,9 +7,12 @@ OmniTrack is a web application designed to provide real-time forex exchange rate
 
 ## Features
 
-- Real-time forex exchange rates for Kenya against USD, GBP, and EUR.
-- Fetches top financial news from Twitter and news organizations.
+- Real-time forex exchange rates for the Kenya Shilling against various currencies e.g. USD, GBP, and EUR.
+- Fetches top financial news from Rapid Api.
 - User-friendly interface for easy navigation and access to information.
+  
+  ![Screenshot from 2024-03-03 16-12-03](https://github.com/Mythamor/OmniTrack/assets/113252977/2e134b1b-05ad-4307-8197-99ea26cc7df0)
+
 
 ## Technologies Used
 
