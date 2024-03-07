@@ -19,10 +19,10 @@ const App = () => {
                     <div className="routes">
                         <Routes>
                             <Route path='/' element={<Homepage/>} />
-                            <Route path="/currency-conversion" element={<CurrencyConversion />} />
-                            <Route path="/financial-trends" element={<FinancialTrends />} />
+                            <Route path="/financial-markets" element={<FinancialTrends />} />
                             <Route path="/trending-news" element={<News />} />
                             <Route path="/historical-rates" element={<HistoricalRates />} />
+                            <Route path="/currency-conversion" element={<CurrencyConversion />} />
                         </Routes>
                     </div>
                 </Layout>

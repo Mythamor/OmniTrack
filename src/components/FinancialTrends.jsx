@@ -13,7 +13,7 @@ const { Option } = Select;
 
 const FinancialTrends = () => {
     const [typeOfTrend, setTypeOfTrend] = useState('');
-    const {data, isFetching} = useGetMarketTrendsQuery({typeOfTrend});
+    const {data, isFetching} = useGetMarketTrendsQuery(typeOfTrend);
     const [selectedCompany, setSelectedCompany] = useState('');
    
    
@@ -54,6 +54,7 @@ const FinancialTrends = () => {
                     <Text type="secondary">Select a financial trend</Text>
                     <br/>
                     <Select style={{ width: 300 }}
+                    defaultValue={typeOfTrend}
                     showSearch
                     className='select-news'
                     placeholder='What financial trend are you interested in?'

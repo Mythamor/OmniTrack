@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Col, Space } from 'antd';
 import { DatePicker, TimePicker, Select } from 'antd';
-import Data from '../assets/forex.csv';
+import Data from '../assets/forex_data.csv';
 import { Line } from 'react-chartjs-2';
 import Papa from 'papaparse';
 import moment from 'moment';
@@ -11,34 +11,11 @@ Chart.register(...registerables);
 
 const { Option } = Select;
 
-const PickerWithType = ({ type, onChange }) => {
-
-    const defaultDate = moment();
-  
-    if (type === 'time') return <TimePicker onChange={onChange} />;
-    if (type === 'date') return <DatePicker onChange={onChange} />;
-    return <DatePicker picker={type} onChange={onChange} defaultValue={defaultDate} />
-  }
-  
-
 
 const LineChartt = () => {
-    const [chartData, setChartData] = useState({
-        labels: [],
-        datasets: [],
-    
-    });
-
-    const [chartOptions, setChartOptions] = useState({});
-    const [selectedCurrency, setSelectedCurrency] = useState('');
-    const [selectedValueType, setSelectedValueType] = useState('');
-    const [selectedDate, setSelectedDate] = useState(moment());
-    const [type, setType] = useState('date');
-
-    const handleDateChange = (value) => {
-        setSelectedDate(value);
-      }
-
+    const [chartData, setChartData] = useState({});
+    const [selectedMonth, setSelectedMonth] = useState(moment().format('YYYY-MM'));
+  
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,27 +23,40 @@ const LineChartt = () => {
                 download: true,
                 header: true,
                 dynamicTYping: true,
-                delimiter: "",
+                //delimiter: ,
                 complete: (results) => {
                     console.log(results);
 
-                    const filteredData = results.data.filter((row) => row['Currency'] === selectedCurrency);
-                    const labels = results.data.map((row) => moment(row['Date']).format('MM/DD/YY'));
-                    const data = filteredData.map((row) => row[selectedValueType]);
-
-
-                    setChartData({
-                        labels,
-                        datasets: [{
-                            label: `${selectedValueType} for ${selectedCurrency}`,
-                            data,
-                            backgroundColor: '#0071bd',
-                            borderColor: 'rgba(75, 192, 192, 1)',
+                    const filteredData = results.data.sort((a, b) => moment(a.Date).format('YYYY-MM') - moment(b.Date).format('YYYY-MM'));    
+                    const labels = results.data.map(entry => entry.Date);
+                    const datasets = [{
+                            label: `USD Buy Rate`,
+                            data: results.data.map(entry => entry.USD_Buy),
+                            backgroundColor: '#00B4D8',
+                            borderColor: 'blue',
                             borderWidth: 2,
                             fill: false
-                        }]
-                    });
-                    setChartOptions({
+                        },
+                        {
+                            label: 'EURO Buy Rate',
+                            data: results.data.map(entry => entry.EURO_Buy),
+                            backgroundColor: '#DC143C',
+                            borderColor: 'red',
+                            borderWidth: 2,
+                            fill: false
+                        },
+                        {
+                            label: 'GBP Buy Rate',
+                            data: results.data.map(entry => entry.GBP_Buy),
+                            backgroundColor: '#228B22',
+                            borderColor: 'green',
+                            borderWidth: 2,
+                            fill: false
+                        },
+                    ];
+                    setChartData({
+                        labels: labels,
+                        datasets: datasets,
                         scales: {
                             yAxes: {
                                 ticks: {
@@ -81,7 +71,7 @@ const LineChartt = () => {
                             },
                             title: {
                                 display: true,
-                                text: `Exchange Rate Line Chart for ${selectedCurrency}`
+                                text: `Exchange Rate Line Chart for ${selectedMonth}`
                             }
                         },
                     });
@@ -90,66 +80,22 @@ const LineChartt = () => {
             });
         };
 
-        fetchData();
-    }, [selectedCurrency, selectedValueType]);
+            fetchData();
+        }, [selectedMonth]);
 
-    const handleCurrencyChange = (e) => {
-        setSelectedCurrency(e.target.value);
-    }
-
-    const handleValueTypeChange = (e) => {
-        setSelectedValueType(e.target.value);
-    }
-
+    const handleMonthChange = (value) => {
+        setSelectedMonth(value);
+    };
 
     return (
 
         <>
-            <h2>Exchange Rate Line Chart</h2>
+            <h1>5 Year Foreign Exchange Rates</h1>
             <br />
-            <Col span={24}>
-            <Space style={{ display: 'flex'}}>
-                <Select
-                    value={type} 
-                    onChange={setType}>
-                <Option value="date">Date</Option>
-                <Option value="week">Week</Option>
-                <Option value="month">Month</Option>
-                <Option value="quarter">Quarter</Option>
-                <Option value="year">Year</Option>
-                <Option value="time">Time</Option>
-                </Select>
-                <PickerWithType type={type} onChange={handleDateChange} selectedDate={selectedDate} />
-            </Space>
-            </Col>
-            <br />
-            <div>
-                <Col span={12}>
-                    <Select 
-                        style={{ width: 150 }}
-                        value={selectedCurrency} 
-                        onChange={handleCurrencyChange}>
-                    <Option value="US DOLLAR">USD</Option>
-                    <Option value="STG POUND">STERLING POUND</Option>
-                    <Option value="EURO">EUR</Option>
-                    </Select>
-                </Col>
-                <br />
-                <Col span={12}>
-                    <Select 
-                        style={{ width: 150 }}
-                        value={selectedValueType} 
-                        onChange={handleValueTypeChange}>
-                    <Option value="Buy">Buy</Option>
-                    <Option value="Sell">Sell</Option>
-                    <Option value="Mean">Mean</Option>  
-                    </Select>
-                </Col>
-            </div>
             <div>
                 {
                     chartData && chartData.datasets && chartData.datasets.length > 0 ? (
-                        <Line data={chartData} Options={chartOptions} />
+                        <Line data={chartData} Options={chartData} />
                     ) : (
                         <div>Loading...</div>
                     )

@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import moment from 'moment';
 import millify from 'millify';
 import { Typography,
          Card, 
          Row, 
          Col,
-         Select,
          Statistic,
        } from 'antd';
 import { Link } from 'react-router-dom';
@@ -24,7 +23,6 @@ import '../index.css';
 
 
 const { Title, Text } = Typography;
-const {Option} = Select;
 
 
 const Homepage = () => {
@@ -89,12 +87,9 @@ const Homepage = () => {
           Trending News
         </Title>
         <Title level={5} className='show-more'><Link to="/trending-news">Show More</Link></Title>
-      </div><div id="financial-trends">
+      </div><div id="financial-markets">
         <News simplified />
       </div><div id="trending-news">
-        <Text type="secondary">
-          What's happening in Kenya's financial market
-        </Text>
       </div><br /><br />
     </>
 

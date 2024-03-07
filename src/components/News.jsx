@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Select, Typography, Card, Avatar, Row, Col } from 'antd';
+import moment from 'moment';
+import { Select, Typography, Card, Avatar, Row, Col, Spin } from 'antd';
 import { SmileTwoTone, XOutlined } from '@ant-design/icons';
 
 import { useGetFinancialNewsQuery } from '../services/newsApi';
@@ -12,12 +12,23 @@ const { Text } = Typography;
 const { Option } = Select;
 const { Meta } = Card;
 
-const demoImage = "src/images/forex.jpeg";
+const demoImage = "../images/forex.jpeg";
 
-const News = ({ simplified }) => {
+const News = () => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const [newsCategory, setNewsCategory] = useState('Kenya-financial-news');
-  const { data: trendingNews } = useGetFinancialNewsQuery({ newsCategory, count: simplified ? 6 : 12 });
+  const { data: trendingNews } = useGetFinancialNewsQuery( newsCategory);
   const { data } = useGetMarketTrendsQuery();
+
+  const handleImageLoaded = () => {
+    setImageLoaded(true);
+  };
+
+  const handleImageError = () => {
+    setImageError(demoImage);
+  };
+
 
   // Function to Extract a word from the url
   const getWordFromUrl = (url) => {
@@ -30,6 +41,9 @@ const News = ({ simplified }) => {
   if (!trendingNews?.data) {
     return <Loader />;
   };
+
+  // Limit the number of news to display
+  const newsLimit = trendingNews?.data.slice(0, 10) ?? [];
 
   return (
     <>
@@ -56,20 +70,23 @@ const News = ({ simplified }) => {
                   {data?.data?.trends.map((trend) => <Option value={trend.name}>{trend.name}</Option>)}
                 </Select>
             </Col>
-        {trendingNews?.data.map((news, i) => (
+        {trendingNews.data.map((news, i) => (
           <Col xs={24} sm={12} lg={8} key={i}>
             <a href={news?.link} target='_blank' rel='noreferrer'>
               <Card
                 hoverable
                 style={{ width: 300 }}
                 cover={
-                  <img
-                    alt="trendingNews"
-                    src={news?.photo_url}
+                  <Spin spinning={!imageLoaded}>
+                    <img
+                      alt="trendingNews"
+                      src={news?.photo_url || demoImage}
                     style={{ maxWidth: '100%', maxHeight: '200px'}}
-                  />
-                }
-                
+                      onLoad={handleImageLoaded}
+                      onError={handleImageError}
+                    />
+                </Spin>
+                  }
                 actions={[
                   <a class="twitter-share-button"
                     href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(news?.title)}`}
@@ -84,8 +101,11 @@ const News = ({ simplified }) => {
               >
                 <Meta hoverable
                   avatar={<Avatar src={news?.source_favicon_url}/>}
-                  title={<span style={{fontWeight: 'bold'}}>{getWordFromUrl(news?.source_url)}</span>}
-                  description={<span style={{ fontWeight: 'bold', fontSize: '16px', color: '#808080'}}>{news?.title}</span>}
+                  title=''
+                  description={<><span style={{ fontWeight: 'bold' }}>{getWordFromUrl(news?.source_url)}</span> 
+                              <br/><span>{moment(news.published_datetime_utc).startOf('ss').fromNow()}</span>
+                  <br/>
+                  <span style={{ fontWeight: 'bold', fontSize: '16px', color: '#808080' }}>{news?.title}</span></>}
                 />
                 {/*<Text>{moment(news.published_datetime_utc).startOf('ss').fromNow()}</Text>*/}
               </Card>
